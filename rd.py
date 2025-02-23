@@ -15,7 +15,7 @@ pygame.mixer.music.load(path_alarm)
 # Loading the model
 model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
 
-cap = cv2.VideoCapture("Test Videos/thief_video2.mp4")
+cap = cv2.VideoCapture("rtmp://cast.koogle.sk/live/njbannadhaan1")
 
 target_classes = ['car', 'bus','truck','person']
 
@@ -58,9 +58,9 @@ def preprocess(img):
 
 while True:
     ret, frame = cap.read()
-    if not ret or frame is None:
-        print("Error: Failed to read frame from camera/video.")
-        break  # Stop the loop if no frame is read
+    # if not ret or frame is None:
+    #     print("Error: Failed to read frame from camera/video.")
+    #     break  # Stop the loop if no frame is read
     frame_detected = frame.copy()
 
     frame = preprocess(frame)
