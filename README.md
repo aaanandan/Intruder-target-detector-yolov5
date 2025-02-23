@@ -4,7 +4,8 @@
 ```
 python -m venv venv
 venv\Scripts\activate
-pip install opencv-python torch numpy pygame
+pip install opencv-python torch pygame pandas requests pillow ultralytics numpy==2.1.1 python-dotenv
+
 ```
 
 

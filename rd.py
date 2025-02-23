@@ -2,6 +2,8 @@ import cv2
 import torch
 import numpy as np
 import pygame
+import os
+from dotenv import load_dotenv
 
 #Don't forget to double check the paths
 
@@ -15,9 +17,27 @@ pygame.mixer.music.load(path_alarm)
 # Loading the model
 model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
 
-cap = cv2.VideoCapture("rtmp://cast.koogle.sk/live/njbannadhaan1")
+# Load environment variables
+load_dotenv()
 
-target_classes = ['car', 'bus','truck','person']
+# Get values from environment file
+rtmp_url = os.getenv('RTMP_URL')
+if not rtmp_url:
+    raise ValueError("RTMP_URL not found in environment file")
+
+target_classes = os.getenv('TARGET_CLASSES', 'car,bus,truck,person').split(',')
+
+# Initialize video capture with URL from env
+cap = cv2.VideoCapture(rtmp_url)
+
+# Check if video capture is successfully initialized
+if not cap.isOpened():
+    raise ValueError(f"Failed to open video stream: {rtmp_url}")
+
+# Read the first frame to verify stream is working
+ret, frame = cap.read()
+if not ret or frame is None:
+    raise ValueError(f"Failed to read from video stream: {rtmp_url}")
 
 count = 0
 
